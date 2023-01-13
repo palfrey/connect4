@@ -90,3 +90,19 @@ def test_main():
 .......
 Choose column for Player 1 between 1 and 7 >"""
     )
+
+
+def test_play_draw(monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]):
+    # Fill up each column alternating
+    # This only works to force a draw because we're running with 4 players
+    # With 2 or 3 they'd fill in the same row and Player 1 would win on column 4
+    input = ""
+    for column in range(7):
+        input += f"{column+1}\n" * 6
+    input += "1\n"
+    monkeypatch.setattr("sys.stdin", io.StringIO(input))
+    assert Connect4(players=4).play() == -1
+
+    output = capsys.readouterr()
+    assert output.err == ""
+    assert output.out.endswith("Draw!\n")

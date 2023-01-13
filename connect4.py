@@ -13,6 +13,7 @@ class Connect4:
         self.winning_count = winning_count
 
         self.grid: GridType = [[None for _ in range(rows)] for _ in range(columns)]
+        self.plays = 0
 
     def choose_player_column(self, player_id: int) -> int:
         while True:
@@ -41,10 +42,12 @@ class Connect4:
                 if last_empty_row is None:  # i.e. we're on the first row
                     return False
                 self.grid[column][last_empty_row] = player_id
+                self.plays += 1
                 return True
             last_empty_row = row_id
         # got to the end of the rows, so last row must be empty
         self.grid[column][self.rows - 1] = player_id
+        self.plays += 1
         return True
 
     def print_grid(self) -> None:
@@ -90,6 +93,9 @@ class Connect4:
                         return player
         return None
 
+    def is_grid_full(self):
+        return self.plays == self.columns * self.rows
+
     def play(self) -> int:
         won = None
         while won is None:
@@ -108,6 +114,10 @@ class Connect4:
                 if won is not None:
                     self.print_grid()
                     print(f"Player {won} won!")
+                    break
+                if self.is_grid_full():
+                    print("Draw!")
+                    won = -1  # so the while loop breaks
                     break
         return won
 
