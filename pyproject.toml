@@ -1,0 +1,4 @@
+[tool.coverage.run]
+omit = [
+    "test_connect4.py"
+    ]

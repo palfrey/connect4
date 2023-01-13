@@ -1,3 +1,5 @@
 pip-tools
 pytest
 pre-commit
+pytest-watch
+pytest-cov
