@@ -1,5 +1,7 @@
 from typing import List, Optional
 
+# grid is in the order [X][Y]
+# None is "no piece", integer is player number
 GridType = List[List[Optional[int]]]
 
 
@@ -10,8 +12,6 @@ class Connect4:
         self.players = players
         self.winning_count = winning_count
 
-        # grid is in the order [X][Y]
-        # None is "no piece", integer is player number
         self.grid: GridType = [[None for _ in range(rows)] for _ in range(columns)]
 
     def choose_player_column(self, player_id: int) -> int:
