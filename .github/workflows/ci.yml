@@ -31,7 +31,7 @@ jobs:
               run: pre-commit run -a
 
             - name: pytest
-              run: pytest -vvv --cov-report=term-missing --cov-report=lcov
+              run: pytest -vvv --cov=. --cov-report=term-missing --cov-report=lcov
 
             - name: Python Coveralls
               uses: coverallsapp/github-action@master
