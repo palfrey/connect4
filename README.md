@@ -20,6 +20,8 @@ Development
 -----------
 1. Install the testing/dev packages with `pip install -r requirements.txt`
     * Optionally (but encouraged), setup a [virtualenv](https://docs.python.org/3/library/venv.html#creating-virtual-environments) first!
-2. Setup pre-commit with `pre-commit install`
+2. Setup [pre-commit](https://pre-commit.com/) with `pre-commit install`
 
-pytest-watch is installed for watching tests, and a suggested command line for running tests is `ptw -- -vvv --cov=. --cov-report=term-missing`
+[pytest-watch](https://pypi.org/project/pytest-watch/) is installed for watching tests, and a suggested command line for running tests is `ptw -- -vvv --cov=. --cov-report=term-missing`
+
+If you add new packages to the `requirements.in`, please re-run `pip-compile` to generate the locked-down version in `requirements.txt`.
