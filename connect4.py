@@ -1,3 +1,5 @@
+import argparse
+import sys
 from typing import List, Optional
 
 # grid is in the order [X][Y]
@@ -122,5 +124,39 @@ class Connect4:
         return won
 
 
+def main(args: List[str]):
+    parser = argparse.ArgumentParser(description="Connect 4")
+    player_arg = parser.add_argument(
+        "--players", type=int, default=2, help="Players (default: 2)"
+    )
+    row_arg = parser.add_argument(
+        "--rows", type=int, default=6, help="Rows in the grid (default: 6)"
+    )
+    columns_arg = parser.add_argument(
+        "--columns", type=int, default=7, help="Columns in the grid (default: 7)"
+    )
+    winning_count = parser.add_argument(
+        "--winning-count",
+        type=int,
+        default=4,
+        help="Winning number of counters in a row (default: 4)",
+    )
+    opts = parser.parse_args(args)
+    if opts.players < 1:
+        raise argparse.ArgumentError(player_arg, "Players must be at least 1")
+    if opts.rows < 1:
+        raise argparse.ArgumentError(row_arg, "Rows must be at least 1")
+    if opts.columns < 1:
+        raise argparse.ArgumentError(columns_arg, "Columns must be at least 1")
+    if opts.winning_count < 1:
+        raise argparse.ArgumentError(winning_count, "Winning count must be at least 1")
+    Connect4(
+        players=opts.players,
+        rows=opts.rows,
+        columns=opts.columns,
+        winning_count=opts.winning_count,
+    ).play()
+
+
 if __name__ == "__main__":
-    Connect4().play()
+    main(sys.argv[1:])  # Skip the first arg which is the program name

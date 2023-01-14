@@ -1,10 +1,12 @@
+import argparse
 import io
+import re
 import subprocess
 import sys
 import pytest
 from pathlib import Path
 
-from connect4 import Connect4
+from connect4 import Connect4, main
 
 
 @pytest.mark.parametrize("stdin, column", [("1", 0), ("dummy\n2", 1), ("-1\n3", 2)])
@@ -70,26 +72,33 @@ def test_play_full_column(
     assert output.out.endswith("Player 1 won!\n")
 
 
-def test_main():
+def test_help():
     res = subprocess.run(
-        [sys.executable, Path(__file__).parent.joinpath("connect4.py")],
-        input="",
+        [sys.executable, Path(__file__).parent.joinpath("connect4.py"), "--help"],
         capture_output=True,
         encoding="utf8",
     )
+    assert res.returncode == 0
+    assert res.stderr == ""
+    assert "Connect 4" in res.stdout
     assert (
-        res.returncode == 1
-    )  # Because we EOF, as we're testing the rest of the play bits earlier
-    assert (
-        res.stdout
-        == """.......
-.......
-.......
-.......
-.......
-.......
-Choose column for Player 1 between 1 and 7 >"""
+        re.search(r"-h, --help\s+show this help message and exit", res.stdout)
+        is not None
     )
+
+
+def test_main(monkeypatch: pytest.MonkeyPatch):
+    monkeypatch.setattr("sys.stdin", io.StringIO(""))
+    with pytest.raises(EOFError):
+        main([])
+
+
+@pytest.mark.parametrize(
+    "arg", ["--players=0", "--rows=-1", "--columns=-1", "--winning-count=0"]
+)
+def test_bad_args(arg: str):
+    with pytest.raises(argparse.ArgumentError):
+        main([arg])
 
 
 def test_play_draw(monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]):
