@@ -33,6 +33,9 @@ jobs:
             - name: pytest
               run: pytest -vvv --cov=. --cov-report=term-missing --cov-report=lcov
 
+            - name: mypy
+              run: mypy .
+
             - name: Python Coveralls
               uses: coverallsapp/github-action@master
               with:

@@ -3,3 +3,4 @@ pytest
 pre-commit
 pytest-watch
 pytest-cov
+mypy

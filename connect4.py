@@ -8,7 +8,9 @@ GridType = List[List[Optional[int]]]
 
 
 class Connect4:
-    def __init__(self, columns=7, rows=6, players=2, winning_count=4):
+    def __init__(
+        self, columns: int = 7, rows: int = 6, players: int = 2, winning_count: int = 4
+    ):
         self.columns = columns
         self.rows = rows
         self.players = players
@@ -95,7 +97,7 @@ class Connect4:
                         return player
         return None
 
-    def is_grid_full(self):
+    def is_grid_full(self) -> bool:
         return self.plays == self.columns * self.rows
 
     def play(self) -> int:
@@ -124,7 +126,7 @@ class Connect4:
         return won
 
 
-def main(args: List[str]):
+def main(args: List[str]) -> None:
     parser = argparse.ArgumentParser(description="Connect 4")
     player_arg = parser.add_argument(
         "--players", type=int, default=2, help="Players (default: 2)"

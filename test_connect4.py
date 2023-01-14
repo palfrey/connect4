@@ -17,7 +17,7 @@ def test_choose_player_column(
     assert Connect4().choose_player_column(1) == column
 
 
-def test_place_piece():
+def test_place_piece() -> None:
     c4 = Connect4()
     for _ in range(6):
         assert c4.place_piece(1, 1) is True
@@ -25,7 +25,7 @@ def test_place_piece():
     assert c4.place_piece(1, 1) is False
 
 
-def test_print_grid(capsys: pytest.CaptureFixture[str]):
+def test_print_grid(capsys: pytest.CaptureFixture[str]) -> None:
     c4 = Connect4()
 
     c4.print_grid()
@@ -41,7 +41,7 @@ def test_print_grid(capsys: pytest.CaptureFixture[str]):
     assert output.out == ".......\n.......\n.......\n.......\n.......\n.1..2..\n"
 
 
-def test_has_won():
+def test_has_won() -> None:
     c4 = Connect4()
     for _ in range(4):
         assert c4.has_won() is None
@@ -49,7 +49,9 @@ def test_has_won():
     assert c4.has_won() == 1
 
 
-def test_play(monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]):
+def test_play(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
     monkeypatch.setattr("sys.stdin", io.StringIO("1\n2\n" * 4))
     assert Connect4().play() == 1
 
@@ -60,7 +62,7 @@ def test_play(monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str
 
 def test_play_full_column(
     monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
-):
+) -> None:
     # First, fill up the 1st column to check that path
     # Then fill 2 and 3 alternately so player 1 wins
     input = ("1\n" * 7) + ("2\n3\n" * 4)
@@ -72,7 +74,7 @@ def test_play_full_column(
     assert output.out.endswith("Player 1 won!\n")
 
 
-def test_help():
+def test_help() -> None:
     res = subprocess.run(
         [sys.executable, Path(__file__).parent.joinpath("connect4.py"), "--help"],
         capture_output=True,
@@ -87,7 +89,7 @@ def test_help():
     )
 
 
-def test_main(monkeypatch: pytest.MonkeyPatch):
+def test_main(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr("sys.stdin", io.StringIO(""))
     with pytest.raises(EOFError):
         main([])
@@ -96,12 +98,14 @@ def test_main(monkeypatch: pytest.MonkeyPatch):
 @pytest.mark.parametrize(
     "arg", ["--players=0", "--rows=-1", "--columns=-1", "--winning-count=0"]
 )
-def test_bad_args(arg: str):
+def test_bad_args(arg: str) -> None:
     with pytest.raises(argparse.ArgumentError):
         main([arg])
 
 
-def test_play_draw(monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]):
+def test_play_draw(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
     # Fill up each column alternating
     # This only works to force a draw because we're running with 4 players
     # With 2 or 3 they'd fill in the same row and Player 1 would win on column 4
