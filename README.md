@@ -1,11 +1,12 @@
 Connect 4
 =========
+[![Coverage Status](https://coveralls.io/repos/github/palfrey/connect4/badge.svg)](https://coveralls.io/github/palfrey/connect4)
 
 Command line version of [Connect 4](https://en.wikipedia.org/wiki/Connect_Four).
 
 Usage
 -----
-1. Install Python 3.x. Tested on 3.7.
+1. Install Python 3.x. Tested on 3.7-3.11.
 2. Run `python connect4.py`. Optionally, provide it some arguments for a non-default game.
 ```
   --players PLAYERS     Players (default: 2)
